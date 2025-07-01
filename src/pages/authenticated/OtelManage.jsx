@@ -1,4 +1,4 @@
-import { CustomerTable } from "../../components/CustomersTable/CustomerTable";
+import { CustomerTable } from "../../components/CustomerTable/CustomerTable";
 
 export function OtelManage() {
     return (
