@@ -7,8 +7,8 @@ const RoomCards = () => {
 
   return (
     <div className="py-12  container mx-auto">
-      <h2 className="text-4xl font-bold mb-10 text-[#003B95] px-6">Our Rooms</h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-8xl mx-auto">
+      <h2 className="text-4xl text-center font-bold mb-10 text-[#003B95] px-6 ">Our Rooms</h2>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
         {rooms.map((room, index) => (
           <div
             key={index}
