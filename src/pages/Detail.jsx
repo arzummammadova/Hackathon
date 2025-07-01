@@ -39,6 +39,7 @@ const Detail = () => {
             />
           </div>
 
+ee
           {/* Details */}
           <div className="md:w-1/2 flex flex-col justify-between">
             <div>
