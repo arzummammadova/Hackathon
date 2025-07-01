@@ -15,6 +15,7 @@ import Cookies from 'js-cookie';
 import axios from 'axios';
 import useStore from './store';
 import AssignCustomer from './pages/authenticated/AsignCustomer';
+import NotFoundPage from './pages/NotFound/NotFoundPage';
 const router = createBrowserRouter([
   // Routes with Layout
   {
@@ -63,9 +64,15 @@ const router = createBrowserRouter([
       {
         path: '/assign-customer',
         element: <AssignCustomer />,
-      }
+      },
+      
     ]
   }
+  ,
+  {
+    path: '*',
+    element: <NotFoundPage />,
+  },
 
 ]);
 
