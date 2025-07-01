@@ -14,6 +14,7 @@ import RoomManager from './pages/authenticated/RoomManager';
 import Cookies from 'js-cookie';
 import axios from 'axios';
 import useStore from './store';
+import AssignCustomer from './pages/authenticated/AsignCustomer';
 const router = createBrowserRouter([
   // Routes with Layout
   {
@@ -58,6 +59,10 @@ const router = createBrowserRouter([
       {
         path: '/room-manager',
         element: <RoomManager />,
+      },
+      {
+        path: '/assign-customer',
+        element: <AssignCustomer />,
       }
     ]
   }
