@@ -23,6 +23,8 @@ import HotelManager from './pages/Admin/HotelManager';
 import Customers from './pages/Admin/Customers';
 import Services from './pages/Admin/Services';
 import Profile from './pages/Admin/Profile';
+import Contact from './pages/Contact/Contact';
+import AboutPage from './pages/AboutPage';
 
 const router = createBrowserRouter([
   // Routes with Layout
@@ -41,6 +43,14 @@ const router = createBrowserRouter([
       {
         path: 'rooms/:id',
         element: <Detail />,
+      },
+      {
+        path:'contact',
+        element:<Contact/>
+      },
+      {
+        path:'about',
+        element:<AboutPage/>
       }
     ],
   },
