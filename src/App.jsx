@@ -16,6 +16,14 @@ import axios from 'axios';
 import useStore from './store';
 import AssignCustomer from './pages/authenticated/AsignCustomer';
 import NotFoundPage from './pages/NotFound/NotFoundPage';
+import AdminLayout  from  "./components/layout/AdminLayout";
+import Admin from './pages/Admin';
+import UserManager from './pages/Admin/UserManager';
+import HotelManager from './pages/Admin/HotelManager';
+import Customers from './pages/Admin/Customers';
+import Services from './pages/Admin/Services';
+import Profile from './pages/Admin/Profile';
+
 const router = createBrowserRouter([
   // Routes with Layout
   {
