@@ -13,16 +13,13 @@ import {
   FaConciergeBell,
 } from 'react-icons/fa';
 import bg from '../assets/bg.png';
-import axios from 'axios';
-import Cookies from 'js-cookie';
-import { toastdev } from '@azadev/react-toastdev';
+import useSWR from 'swr';
 import { BASE_URL } from '../constants/api';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
-import useStore from '../store';
-
+import axios from 'axios';
 const Detail = () => {
   const { id } = useParams();
+  const { data: room, isLoading } = useSWR(`${BASE_URL}Room/get-by-id/${id}`, () => axios.get(`${BASE_URL}Room/get-by-id/${id}`))
+  console.log(room)
 
   const images = [
     'https://cf.bstatic.com/xdata/images/hotel/square600/331514620.webp?k=ce55129c42dcbc816423cb0bf9948d62fb634c3fc722b3a4554133fe25d7b8c5&o=',
@@ -34,11 +31,6 @@ const Detail = () => {
 
   const [currentImage, setCurrentImage] = useState(images[0]);
   const [showAllAmenities, setShowAllAmenities] = useState(false);
-  const [showBookingModal, setShowBookingModal] = useState(false);
-  const [checkInDate, setCheckInDate] = useState(null);
-  const [checkOutDate, setCheckOutDate] = useState(null);
-  const [bookingLoading, setBookingLoading] = useState(false);
-  const { user } = useStore()
 
   const data = {
     id,
@@ -75,7 +67,7 @@ const Detail = () => {
           'Otaqda təmizlik gündəlik həyata keçirilir. Dəyərli əşyalar üçün seyf mövcuddur. Qonaqlar fitnes zalından, spa mərkəzindən və hovuzdan pulsuz istifadə edə bilərlər. Resepsiya 24 saat xidmət göstərir.',
       },
     ],
-    videoUrl: 'https://www.youtube.com/embed/MYDRWJuAlB0',
+    videoUrl: ``,
     rules: [
       'Giriş: 14:00 | Çıxış: 12:00',
       'Uşaq 6 yaşadək pulsuz',
@@ -88,51 +80,12 @@ const Detail = () => {
     ? data.amenities
     : data.amenities.slice(0, 4);
 
-  const handleBookNow = () => {
-    setShowBookingModal(true);
-  };
-
-  const handleBookingSubmit = async () => {
-    if (!checkInDate || !checkOutDate) {
-      toastdev.error('Tarix aralığını seçin!', { sound: true, duration: 2000 });
-      return;
-    }
-    setBookingLoading(true);
-    try {
-      const res = await axios.post(
-        BASE_URL + 'Reservation',
-        {
-          customerId: user?.id,
-          roomId: 1,
-          checkInDate: checkInDate.toISOString(),
-          checkOutDate: checkOutDate.toISOString(),
-          serviceId: 1,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${Cookies.get('accessToken')}`,
-          },
-        }
-      );
-      console.log(res)
-
-      toastdev.success('Rezervasiya uğurla tamamlandı!', { sound: true, duration: 2000 });
-      setShowBookingModal(false);
-      setCheckInDate(null);
-      setCheckOutDate(null);
-    } catch (err) {
-      console.log(err)
-      toastdev.error(
-        err.response?.data?.message ||
-        (typeof err.response?.data === 'string' ? err.response.data : null) ||
-        'Xəta baş verdi!',
-        { sound: true, duration: 2000 }
-      );
-    } finally {
-      setBookingLoading(false);
-    }
-  };
-
+  if (!room && isLoading) {
+    return <div>Loading...</div>;
+  }
+  else if (!room && !isLoading) {
+    return <div className='flex justify-center items-center h-screen text-2xl font-bold text-red-500' >Otaq tapılmadı</div>;
+  }
   return (
     <div className="bg-gray-50 min-h-screen py-12"
       style={{
@@ -145,9 +98,8 @@ const Detail = () => {
       <div className="container mx-auto px-4 max-w-5xl">
         {/* Title */}
         <h1 className="text-3xl md:text-5xl font-bold text-center text-[#003B95] mb-10">
-          {data.title}
+          {room.data.name}
         </h1>
-
         {/* Main Content */}
         <div className="flex flex-col md:flex-row gap-8">
           {/* Image Section */}
@@ -179,10 +131,10 @@ const Detail = () => {
           {/* Details */}
           <div className="md:w-1/2 flex flex-col justify-between">
             <div>
-              <p className="text-gray-700 mb-4">{data.description}</p>
+              <p className="text-gray-700 mb-4">{room.data.description}</p>
 
               <div className="flex items-center text-blue-600 text-xl font-semibold mb-4">
-                <FaCheckCircle className="mr-2" /> {data.price}
+                <FaCheckCircle className="mr-2" /> {room.data.pricePerNight} AZN/ / gecə
               </div>
 
               <div>
@@ -210,10 +162,7 @@ const Detail = () => {
               </div>
             </div>
 
-            <button
-              className="mt-8 bg-[#003B95] text-white py-3 px-6 rounded-lg hover:bg-[#0056d2] transition duration-300 w-full md:w-auto shadow-md hover:shadow-lg"
-              onClick={handleBookNow}
-            >
+            <button className="mt-8 bg-[#003B95] text-white py-3 px-6 rounded-lg hover:bg-[#0056d2] transition duration-300 w-full md:w-auto shadow-md hover:shadow-lg">
               İndi rezerv et
             </button>
           </div>
@@ -239,7 +188,7 @@ const Detail = () => {
             <iframe
               width="100%"
               height="450"
-              src={data.videoUrl}
+              src={`https://cavid.s3.eu-north-1.amazonaws.com/${room.data.videoKey}`}
               title="Hotel video"
               frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -266,60 +215,10 @@ const Detail = () => {
         <div className="mt-16 text-center bg-gradient-to-r from-[#003B95] to-[#0066CC] text-white py-8 px-4 rounded-xl shadow-lg">
           <h2 className="text-2xl md:text-3xl font-bold mb-4">Premium otağınızı indi rezerv edin!</h2>
           <p className="mb-6 text-lg">Xüsusi endirimlərdən yararlanmaq üçün indi müraciət edin</p>
-          <button className="bg-white text-[#003B95] font-bold py-3 px-8 rounded-lg hover:bg-gray-100 transition duration-300 shadow-md"
-            onClick={handleBookNow}
-          >
+          <button className="bg-white text-[#003B95] font-bold py-3 px-8 rounded-lg hover:bg-gray-100 transition duration-300 shadow-md">
             Rezervasiya et
           </button>
         </div>
-
-        {/* Booking Modal */}
-        {showBookingModal && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-            <div className="bg-white rounded-2xl shadow-xl p-8 w-full max-w-md relative">
-              <button
-                className="absolute top-3 right-3 text-gray-400 hover:text-gray-700 text-2xl"
-                onClick={() => setShowBookingModal(false)}
-              >
-                ×
-              </button>
-              <h2 className="text-2xl font-bold mb-6 text-[#003B95]">Rezervasiya et</h2>
-              <div className="mb-4">
-                <label className="block mb-2 font-medium">Giriş tarixi</label>
-                <DatePicker
-                  selected={checkInDate}
-                  onChange={date => setCheckInDate(date)}
-                  selectsStart
-                  startDate={checkInDate}
-                  endDate={checkOutDate}
-                  minDate={new Date()}
-                  className="w-full border border-gray-200 rounded-lg px-4 py-2"
-                  placeholderText="Giriş tarixini seçin"
-                />
-              </div>
-              <div className="mb-4">
-                <label className="block mb-2 font-medium">Çıxış tarixi</label>
-                <DatePicker
-                  selected={checkOutDate}
-                  onChange={date => setCheckOutDate(date)}
-                  selectsEnd
-                  startDate={checkInDate}
-                  endDate={checkOutDate}
-                  minDate={checkInDate || new Date()}
-                  className="w-full border border-gray-200 rounded-lg px-4 py-2"
-                  placeholderText="Çıxış tarixini seçin"
-                />
-              </div>
-              <button
-                onClick={handleBookingSubmit}
-                disabled={bookingLoading}
-                className={`w-full py-3 rounded-lg text-white text-lg font-bold shadow-md transition-all duration-200 ${bookingLoading ? 'bg-gray-300 cursor-not-allowed' : 'bg-[#003B95] hover:bg-blue-800'}`}
-              >
-                {bookingLoading ? 'Rezerv edilir...' : 'Təsdiqlə'}
-              </button>
-            </div>
-          </div>
-        )}
       </div>
     </div>
   );

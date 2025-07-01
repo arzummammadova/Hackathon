@@ -64,14 +64,14 @@ const VacationSection = () => {
       size: "small"
     },
     {
-        id: "apartments",
-        title: "Apartments",
-        icon: HiOutlineHomeModern,
-        gradient: "from-[#003B95]/10 to-[#003B95]/5",
-        iconColor: "text-[#003B95]",
-        textColor: "text-[#003B95]",
-        size: "small"
-      },
+      id: "apartmentss",
+      title: "Apartments",
+      icon: HiOutlineHomeModern,
+      gradient: "from-[#003B95]/10 to-[#003B95]/5",
+      iconColor: "text-[#003B95]",
+      textColor: "text-[#003B95]",
+      size: "small"
+    },
     {
       id: "chalets",
       title: "Chalets",
@@ -110,14 +110,14 @@ const VacationSection = () => {
       description: "Home away from home"
     },
     {
-        id: "houses",
-        title: "Houses",
-        image:
-          "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=400&h=300&fit=crop",
-        gradient: "from-[#003B95]/80 to-[#003B95]/50",
-        size: "medium",
-        description: "Home away from home"
-      }
+      id: "houses",
+      title: "Houses",
+      image:
+        "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=400&h=300&fit=crop",
+      gradient: "from-[#003B95]/80 to-[#003B95]/50",
+      size: "medium",
+      description: "Home away from home"
+    }
   ];
 
   const getGridClasses = (size) => {
@@ -216,11 +216,10 @@ const VacationSection = () => {
             onMouseLeave={() => setHoveredCard(null)}
           >
             <div
-              className={`relative h-full overflow-hidden rounded-xl md:rounded-2xl ${
-                item.size === "large" || item.size === "xlarge"
-                  ? "rounded-2xl md:rounded-3xl shadow-lg md:shadow-2xl"
-                  : "shadow-md md:shadow-lg"
-              } transform transition-all duration-500 hover:scale-[1.02] hover:shadow-xl md:hover:shadow-2xl`}
+              className={`relative h-full overflow-hidden rounded-xl md:rounded-2xl ${item.size === "large" || item.size === "xlarge"
+                ? "rounded-2xl md:rounded-3xl shadow-lg md:shadow-2xl"
+                : "shadow-md md:shadow-lg"
+                } transform transition-all duration-500 hover:scale-[1.02] hover:shadow-xl md:hover:shadow-2xl`}
             >
               {renderCardContent(item)}
             </div>

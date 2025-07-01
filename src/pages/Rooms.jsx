@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaSearch, FaStar, FaBed, FaWifi, FaSwimmingPool, FaCoffee, FaSnowflake, FaTv, FaParking, FaUmbrellaBeach, FaCar, FaUtensils, FaDollarSign, FaExpand, FaHeart, FaInfoCircle, FaShare } from 'react-icons/fa';
 import { FiFilter, FiChevronDown, FiChevronUp } from 'react-icons/fi';
+import { allRooms } from '../constants/api';
 
 const Rooms = () => {
   const navigate = useNavigate();
@@ -11,110 +12,6 @@ const Rooms = () => {
   const [expandedCard, setExpandedCard] = useState(null);
 
   // Fake data for rooms - Updated to include more fields
-  const allRooms = [
-    {
-      id: 1,
-      name: 'Deluxe Ocean View',
-      price: 450,
-      originalPrice: 500, // Added
-      rating: 4.9,
-      reviews: 210, // Added
-      type: 'popular',
-      location: 'Beach Front',
-      description: 'Experience breathtaking ocean views from your private balcony',
-      amenities: ['Free WiFi', 'Pool Access', 'Breakfast Included', 'Air Conditioning', 'Parking', 'Restaurant'], // Updated
-      image: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
-      available: true, // Added
-      discount: 10, // Added
-      size: '40 m²', // Added
-      guests: 2 // Added
-    },
-    {
-      id: 2,
-      name: 'Executive Suite',
-      price: 380,
-      originalPrice: 450, // Added
-      rating: 4.7,
-      reviews: 155, // Added
-      type: 'popular',
-      location: 'City View',
-      description: 'Spacious suite with premium amenities and panoramic city views',
-      amenities: ['Free WiFi', 'Executive Lounge', '24/7 Concierge', 'Smart TV', 'Parking', 'Restaurant'], // Updated
-      image: 'https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
-      available: true, // Added
-      discount: 15, // Added
-      size: '55 m²', // Added
-      guests: 4 // Added
-    },
-    {
-      id: 3,
-      name: 'Comfort Double',
-      price: 220,
-      originalPrice: 250, // Added
-      rating: 4.5,
-      reviews: 300, // Added
-      type: 'comfort',
-      location: 'Garden Wing',
-      description: 'Cozy double room with all essential amenities for a comfortable stay',
-      amenities: ['Free WiFi', 'Coffee Maker', 'Work Desk', 'Restaurant'], // Updated
-      image: 'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
-      available: false, // Added
-      discount: 0, // Added
-      size: '30 m²', // Added
-      guests: 2 // Added
-    },
-    {
-      id: 4,
-      name: 'Standard Room',
-      price: 180,
-      originalPrice: 200, // Added
-      rating: 4.2,
-      reviews: 450, // Added
-      type: 'standard',
-      location: 'Main Building',
-      description: 'Simple yet comfortable accommodation with all basic necessities',
-      amenities: ['Free WiFi', 'Daily Cleaning'], // Updated
-      image: 'https://images.unsplash.com/photo-1578683010236-d716f9a3f461?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
-      available: true, // Added
-      discount: 10, // Added
-      size: '25 m²', // Added
-      guests: 2 // Added
-    },
-    {
-      id: 5,
-      name: 'Luxury Penthouse',
-      price: 650,
-      originalPrice: 700, // Added
-      rating: 4.9,
-      reviews: 98, // Added
-      type: 'luxury',
-      location: 'Top Floor',
-      description: 'Ultimate luxury with private terrace, jacuzzi and butler service',
-      amenities: ['Free WiFi', 'Private Pool', 'Minibar', 'Smart TV', '24/7 Butler', 'Parking', 'Restaurant'], // Updated
-      image: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
-      available: true, // Added
-      discount: 7, // Added
-      size: '80 m²', // Added
-      guests: 6 // Added
-    },
-    {
-      id: 6,
-      name: 'Family Suite',
-      price: 320,
-      originalPrice: 350, // Added
-      rating: 4.6,
-      reviews: 180, // Added
-      type: 'family',
-      location: 'Garden Wing',
-      description: 'Spacious accommodation perfect for families with children',
-      amenities: ['Free WiFi', 'Extra Beds', 'Children Menu', 'Play Area', 'Parking', 'Restaurant'], // Updated
-      image: 'https://images.unsplash.com/photo-1578683010236-d716f9a3f461?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
-      available: true, // Added
-      discount: 8, // Added
-      size: '60 m²', // Added
-      guests: 5 // Added
-    }
-  ];
 
   // State for filters
   const [searchTerm, setSearchTerm] = useState('');
@@ -137,18 +34,18 @@ const Rooms = () => {
   // Filter rooms
   const filteredRooms = allRooms.filter(room => {
     // Search filter
-    const matchesSearch = room.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                         room.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         room.location.toLowerCase().includes(searchTerm.toLowerCase()); // Added location to search
-    
+    const matchesSearch = room.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      room.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      room.location.toLowerCase().includes(searchTerm.toLowerCase()); // Added location to search
+
     // Price filter
     const matchesPrice = room.price >= priceRange[0] && room.price <= priceRange[1];
-    
+
     // Amenities filter
-    const matchesAmenities = selectedAmenities.length === 0 || 
-                           selectedAmenities.every(amenity => 
-                             room.amenities.some(item => item.toLowerCase().includes(amenity.toLowerCase())));
-    
+    const matchesAmenities = selectedAmenities.length === 0 ||
+      selectedAmenities.every(amenity =>
+        room.amenities.some(item => item.toLowerCase().includes(amenity.toLowerCase())));
+
     return matchesSearch && matchesPrice && matchesAmenities;
   });
 
@@ -172,9 +69,9 @@ const Rooms = () => {
 
 
   const toggleAmenity = (amenity) => {
-    setSelectedAmenities(prev => 
-      prev.includes(amenity) 
-        ? prev.filter(item => item !== amenity) 
+    setSelectedAmenities(prev =>
+      prev.includes(amenity)
+        ? prev.filter(item => item !== amenity)
         : [...prev, amenity]
     );
   };
@@ -235,15 +132,15 @@ const Rooms = () => {
   return (
     <div className="bg-gray-50 min-h-screen">
       {/* Hero Section */}
-     
+
       <div
-      className="relative h-100 bg-center bg-cover flex items-center justify-center"
-      style={{
-        backgroundImage:
-          "url('https://hips.hearstapps.com/hmg-prod/images/oakland-california-master-bedroom-1489084768.jpg?crop=1xw:0.9357454772301934xh;center,top&resize=1200:*')",
-      }}
-      
-     >
+        className="relative h-100 bg-center bg-cover flex items-center justify-center"
+        style={{
+          backgroundImage:
+            "url('https://hips.hearstapps.com/hmg-prod/images/oakland-california-master-bedroom-1489084768.jpg?crop=1xw:0.9357454772301934xh;center,top&resize=1200:*')",
+        }}
+
+      >
         <div className="absolute inset-0 bg-black opacity-40"></div>
         <div className="relative z-10 text-center text-white px-4">
           <h1 className="text-4xl font-serif font-bold mb-4 pt-6">Our Rooms & Suites</h1>
@@ -272,60 +169,59 @@ const Rooms = () => {
               onClick={() => setShowFilters(!showFilters)}
             >
               <FiFilter /> Filters {showFilters ? <FiChevronUp /> : <FiChevronDown />}
-          </button>
-          <select
-            className="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            value={sortOption}
-            onChange={(e) => setSortOption(e.target.value)}
-          >
-            <option value="popular">Sort by: Popularity</option>
-            <option value="price-low">Sort by: Price (Low to High)</option>
-            <option value="price-high">Sort by: Price (High to Low)</option>
-            <option value="rating">Sort by: Rating</option>
-          </select>
-        </div>
-
-        {/* Collapsible Filter Content */}
-        <div
-          className={`grid grid-cols-1 md:grid-cols-2 gap-6 overflow-hidden transition-all duration-500 ease-in-out ${
-            showFilters ? 'max-h-screen opacity-100 pt-4 mt-4 border-t border-gray-200' : 'max-h-0 opacity-0'
-          }`}
-        >
-          <div className="mb-4 md:mb-0"> {/* Added mb-0 for medium screens */}
-            <h3 className="font-semibold mb-2 text-gray-700">Price Range: ${priceRange[0]} - ${priceRange[1]}</h3>
-            <input
-              type="range"
-              min="0"
-              max="1000"
-              step="10"
-              value={priceRange[1]}
-              onChange={(e) => setPriceRange([priceRange[0], parseInt(e.target.value)])}
-              className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer range-lg accent-blue-500" // Added styling for range input
-            />
-            <div className="flex justify-between text-sm text-gray-600 mt-1"> {/* Added mt-1 */}
-              <span>$0</span>
-              <span>$1000+</span>
-            </div>
+            </button>
+            <select
+              className="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              value={sortOption}
+              onChange={(e) => setSortOption(e.target.value)}
+            >
+              <option value="popular">Sort by: Popularity</option>
+              <option value="price-low">Sort by: Price (Low to High)</option>
+              <option value="price-high">Sort by: Price (High to Low)</option>
+              <option value="rating">Sort by: Rating</option>
+            </select>
           </div>
-          
-          <div>
-            <h3 className="font-semibold mb-2 text-gray-700">Amenities</h3>
-            <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 xl:grid-cols-7 gap-2"> {/* Adjusted grid columns for responsiveness */}
-              {amenitiesOptions.map(amenity => (
-                <button
-                  key={amenity.id}
-                  className={`flex flex-col items-center p-2 rounded-lg border text-sm transition-colors duration-200 ${selectedAmenities.includes(amenity.id) ? 'bg-blue-100 border-blue-500 text-blue-800' : 'bg-gray-100 border-gray-200 hover:bg-gray-200'}`} // Added hover effect
-                  onClick={() => toggleAmenity(amenity.id)}
-                >
-                  <span className="text-base mb-1">{amenity.icon}</span> {/* Adjusted icon size */}
-                  <span className="text-xs font-medium">{amenity.name}</span> {/* Added font-medium */}
-                </button>
-              ))}
+
+          {/* Collapsible Filter Content */}
+          <div
+            className={`grid grid-cols-1 md:grid-cols-2 gap-6 overflow-hidden transition-all duration-500 ease-in-out ${showFilters ? 'max-h-screen opacity-100 pt-4 mt-4 border-t border-gray-200' : 'max-h-0 opacity-0'
+              }`}
+          >
+            <div className="mb-4 md:mb-0"> {/* Added mb-0 for medium screens */}
+              <h3 className="font-semibold mb-2 text-gray-700">Price Range: ${priceRange[0]} - ${priceRange[1]}</h3>
+              <input
+                type="range"
+                min="0"
+                max="1000"
+                step="10"
+                value={priceRange[1]}
+                onChange={(e) => setPriceRange([priceRange[0], parseInt(e.target.value)])}
+                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer range-lg accent-blue-500" // Added styling for range input
+              />
+              <div className="flex justify-between text-sm text-gray-600 mt-1"> {/* Added mt-1 */}
+                <span>$0</span>
+                <span>$1000+</span>
+              </div>
+            </div>
+
+            <div>
+              <h3 className="font-semibold mb-2 text-gray-700">Amenities</h3>
+              <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 xl:grid-cols-7 gap-2"> {/* Adjusted grid columns for responsiveness */}
+                {amenitiesOptions.map(amenity => (
+                  <button
+                    key={amenity.id}
+                    className={`flex flex-col items-center p-2 rounded-lg border text-sm transition-colors duration-200 ${selectedAmenities.includes(amenity.id) ? 'bg-blue-100 border-blue-500 text-blue-800' : 'bg-gray-100 border-gray-200 hover:bg-gray-200'}`} // Added hover effect
+                    onClick={() => toggleAmenity(amenity.id)}
+                  >
+                    <span className="text-base mb-1">{amenity.icon}</span> {/* Adjusted icon size */}
+                    <span className="text-xs font-medium">{amenity.name}</span> {/* Added font-medium */}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
 
       {/* Rooms Sections */}
       <div className="container mx-auto px-4 py-8">
@@ -337,9 +233,9 @@ const Rooms = () => {
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-8xl mx-auto"> {/* Adjusted grid layout */}
               {popularRooms.map(room => (
-                <RoomCard 
-                  key={room.id} 
-                  room={room} 
+                <RoomCard
+                  key={room.id}
+                  room={room}
                   isFavorite={favorites.has(room.id)}
                   isExpanded={expandedCard === room.id}
                   onDetailClick={handleDetailClick}
@@ -359,17 +255,17 @@ const Rooms = () => {
             <h2 className="text-2xl font-serif font-bold text-blue-900 mb-6">Comfort Rooms</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-8xl mx-auto"> {/* Adjusted grid layout */}
               {comfortRooms.map(room => (
-                 <RoomCard 
-                 key={room.id} 
-                 room={room} 
-                 isFavorite={favorites.has(room.id)}
-                 isExpanded={expandedCard === room.id}
-                 onDetailClick={handleDetailClick}
-                 onFavoriteClick={handleFavoriteClick}
-                 onShareClick={handleShareClick}
-                 onExpandClick={handleExpandClick}
-                 getAmenityIcon={getAmenityIcon}
-               />
+                <RoomCard
+                  key={room.id}
+                  room={room}
+                  isFavorite={favorites.has(room.id)}
+                  isExpanded={expandedCard === room.id}
+                  onDetailClick={handleDetailClick}
+                  onFavoriteClick={handleFavoriteClick}
+                  onShareClick={handleShareClick}
+                  onExpandClick={handleExpandClick}
+                  getAmenityIcon={getAmenityIcon}
+                />
               ))}
             </div>
           </div>
@@ -385,9 +281,9 @@ const Rooms = () => {
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-8xl mx-auto"> {/* Adjusted grid layout */}
               {sortedRooms.map(room => (
-                <RoomCard 
-                  key={room.id} 
-                  room={room} 
+                <RoomCard
+                  key={room.id}
+                  room={room}
                   isFavorite={favorites.has(room.id)}
                   isExpanded={expandedCard === room.id}
                   onDetailClick={handleDetailClick}
@@ -400,8 +296,8 @@ const Rooms = () => {
             </div>
           )}
         </div>
-         {/* Hidden categories - can be removed if not needed */}
-         {/*
+        {/* Hidden categories - can be removed if not needed */}
+        {/*
         {luxuryRooms.length > 0 && (
           <div className="mb-12">
             <h2 className="text-2xl font-serif font-bold text-blue-900 mb-6">Luxury Suites</h2>
@@ -445,11 +341,9 @@ const RoomCard = ({ room, isFavorite, isExpanded, onDetailClick, onFavoriteClick
   return (
     <div
       key={room.id}
-      className={`relative bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500 group cursor-pointer overflow-hidden border border-gray-100 ${
-        !room.available ? 'opacity-75' : ''
-      } ${
-        isExpanded ? 'transform scale-105 z-10' : 'hover:transform hover:scale-105'
-      }`}
+      className={`relative bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500 group cursor-pointer overflow-hidden border border-gray-100 ${!room.available ? 'opacity-75' : ''
+        } ${isExpanded ? 'transform scale-105 z-10' : 'hover:transform hover:scale-105'
+        }`}
       onClick={() => onDetailClick(room.id)}
     >
       {/* Image Section */}
@@ -459,17 +353,17 @@ const RoomCard = ({ room, isFavorite, isExpanded, onDetailClick, onFavoriteClick
           alt={room.name}
           className="w-full h-56 object-cover transition-transform duration-700 group-hover:scale-110"
         />
-        
+
         {/* Gradient Overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-        
+
         {/* Status Badge */}
         {!room.available && (
           <div className="absolute top-4 left-4 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
             Sold Out
           </div>
         )}
-        
+
         {/* Discount Badge */}
         {room.discount > 0 && room.available && ( // Check discount > 0
           <div className="absolute top-4 left-4 bg-gradient-to-r from-green-500 to-green-600 text-white px-3 py-1 rounded-full text-sm font-bold shadow-lg">
@@ -534,16 +428,16 @@ const RoomCard = ({ room, isFavorite, isExpanded, onDetailClick, onFavoriteClick
         {/* Room Details */}
         {/* Added Location here based on original Rooms.jsx */}
         {room.location && (
-           <div className="flex items-center text-gray-600 text-sm mb-3">
-             <FaInfoCircle className="mr-2 opacity-0"/> {/* Placeholder for alignment */}
-             <span>{room.location}</span>
-           </div>
+          <div className="flex items-center text-gray-600 text-sm mb-3">
+            <FaInfoCircle className="mr-2 opacity-0" /> {/* Placeholder for alignment */}
+            <span>{room.location}</span>
+          </div>
         )}
         <div className="mb-4 space-y-2">
           {/* Added description here based on original Rooms.jsx */}
-           {room.description && (
-             <p className="text-sm text-gray-600">{room.description}</p>
-           )}
+          {room.description && (
+            <p className="text-sm text-gray-600">{room.description}</p>
+          )}
           <div className="flex justify-between text-sm text-gray-600">
             {room.size && <span>Size: {room.size}</span>}
             {room.guests && <span>Guests: {room.guests}</span>}
@@ -596,16 +490,15 @@ const RoomCard = ({ room, isFavorite, isExpanded, onDetailClick, onFavoriteClick
             </div>
             <span className="text-gray-500 text-sm">per night</span>
           </div>
-          
-          <button 
-            className={`px-6 py-3 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 ${
-              room.available
-                ? 'bg-gradient-to-r from-[#003B95] to-[#0056d2] text-white hover:shadow-lg hover:shadow-[#003B95]/25'
-                : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-            }`}
+
+          <button
+            className={`px-6 py-3 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 ${room.available
+              ? 'bg-gradient-to-r from-[#003B95] to-[#0056d2] text-white hover:shadow-lg hover:shadow-[#003B95]/25'
+              : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+              }`}
             disabled={!room.available}
-            // Removed onClick here to rely on the card's main onClick for detail page
-            // Add if a specific book now action is needed besides detail
+          // Removed onClick here to rely on the card's main onClick for detail page
+          // Add if a specific book now action is needed besides detail
           >
             {room.available ? 'Book Now' : 'Unavailable'}
           </button>
