@@ -96,6 +96,10 @@ const router = createBrowserRouter([
         path: '/otel-manage',
         element: <OtelManage />,
       },
+      // {
+      //   path: '/profile',
+      //   element: <Profile />,
+      // },
       {
         path: '/room-manager',
         element: <RoomManager />,
@@ -118,14 +122,14 @@ const App = () => {
   const { setUser, logout } = useStore();
 
   useEffect(() => {
-    const token = Cookies.get('token');
+    const token = Cookies.get('accessToken');
     if (token) {
       axios.get(`https://notfounders-001-site1.anytempurl.com/api/User/profile`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
       }).then((res) => {
-        setUser(res.data);
+        setUser(res.data?.data);
       }).catch(() => {
         logout();
       })
