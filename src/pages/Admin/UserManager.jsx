@@ -27,7 +27,7 @@ const UserManager = () => {
                 email: u.email || '-',
                 phoneNumber: u.phoneNumber || '-',
                 createdAt: u.createdAt,
-                role: u.roles[0], // default rol
+                role: u.roles[0],
             }));
             setUsers(enriched);
         }

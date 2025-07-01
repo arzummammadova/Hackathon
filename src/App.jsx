@@ -22,9 +22,10 @@ import UserManager from './pages/Admin/UserManager';
 import HotelManager from './pages/Admin/HotelManager';
 import Customers from './pages/Admin/Customers';
 import Services from './pages/Admin/Services';
-import Profile from './pages/Admin/Profile';
+import AdminProfile from './pages/Admin/Profile';
 import Contact from './pages/Contact/Contact';
 import AboutPage from './pages/AboutPage';
+import Profile from './pages/auth/Profile';
 
 const router = createBrowserRouter([
   // Routes with Layout
@@ -95,7 +96,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/admin/profile',
-        element: <Profile />,
+        element: <AdminProfile />,
       },
     ]
   },
