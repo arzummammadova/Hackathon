@@ -22,7 +22,7 @@ const Footer = () => {
 
   return (
     <>
-      <footer className="relative bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900 text-white overflow-hidden">
+      <footer className="relative bg-gradient-to-br from-slate-900 via-blue-900 to-[#003B95] text-white overflow-hidden">
         <div className="absolute inset-0 opacity-5">
         </div>
         <div className="relative max-w-7xl mx-auto px-4 pt-16 pb-8">
@@ -53,10 +53,10 @@ const Footer = () => {
             {/* Property Types */}
             <div className="group">
               <div className="flex items-center gap-3 mb-6">
-                <div className="p-2 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-lg shadow-lg group-hover:shadow-xl transition-shadow">
+                <div className="p-2 bg-gradient-to-r from-blue-500 to-blue-400 rounded-lg shadow-lg group-hover:shadow-xl transition-shadow">
                   <Building className="w-5 h-5" />
                 </div>
-                <h3 className="text-lg font-bold tracking-wide bg-gradient-to-r from-emerald-300 to-teal-300 bg-clip-text text-transparent">
+                <h3 className="text-lg font-bold tracking-wide bg-gradient-to-r from-blue-300 to-blue-300 bg-clip-text text-transparent">
                   Property Types
                 </h3>
               </div>
@@ -75,7 +75,7 @@ const Footer = () => {
             {/* Customer Services */}
             <div className="group">
               <div className="flex items-center gap-3 mb-6">
-                <div className="p-2 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg shadow-lg group-hover:shadow-xl transition-shadow">
+                <div className="p-2 bg-gradient-to-r from-purple-500 to-[#003B95] rounded-lg shadow-lg group-hover:shadow-xl transition-shadow">
                   <Headphones className="w-5 h-5" />
                 </div>
                 <h3 className="text-lg font-bold tracking-wide bg-gradient-to-r from-purple-300 to-pink-300 bg-clip-text text-transparent">
@@ -86,7 +86,7 @@ const Footer = () => {
                 {['24/7 Support', 'Live Chat', 'Help Center', 'Cancel Booking', 'Modify Reservation', 'Travel Insurance'].map((service) => (
                   <li key={service} className="group/item">
                     <a href="#" className="flex items-center gap-2 text-gray-300 hover:text-white transition-all duration-200 hover:translate-x-1">
-                      <div className="w-1 h-1 bg-purple-400 rounded-full group-hover/item:w-2 transition-all"></div>
+                      <div className="w-1 h-1 bg-[#003B95] rounded-full group-hover/item:w-2 transition-all"></div>
                       {service}
                     </a>
                   </li>
@@ -97,7 +97,7 @@ const Footer = () => {
             {/* Partner With Us */}
             <div className="group">
               <div className="flex items-center gap-3 mb-6">
-                <div className="p-2 bg-gradient-to-r from-orange-500 to-red-500 rounded-lg shadow-lg group-hover:shadow-xl transition-shadow">
+                <div className="p-2 bg-gradient-to-r from-blue-100 to-[#003B95] rounded-lg shadow-lg group-hover:shadow-xl transition-shadow">
                   <Handshake className="w-5 h-5" />
                 </div>
                 <h3 className="text-lg font-bold tracking-wide bg-gradient-to-r from-orange-300 to-red-300 bg-clip-text text-transparent">
@@ -200,7 +200,7 @@ const Footer = () => {
                 placeholder="Subscribe to our newsletter"
                 className="px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
-              <button className="px-6 py-2 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg font-medium hover:from-blue-700 hover:to-purple-700 transition-all duration-200 hover:scale-105 shadow-lg">
+              <button className="px-6 py-2 bg-gradient-to-r from-blue-600 to-[#003B95] rounded-lg font-medium hover:from-blue-700 hover:to-[#003B95] transition-all duration-200 hover:scale-105 shadow-lg">
                 Subscribe
               </button>
             </div>

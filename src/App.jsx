@@ -25,6 +25,7 @@ import Services from './pages/Admin/Services';
 import Profile from './pages/Admin/Profile';
 import Contact from './pages/Contact/Contact';
 import AboutPage from './pages/AboutPage';
+import Rooms from './pages/Rooms';
 
 const router = createBrowserRouter([
   // Routes with Layout
@@ -51,6 +52,10 @@ const router = createBrowserRouter([
       {
         path:'about',
         element:<AboutPage/>
+      },
+      {
+        path:'rooms',
+        element:<Rooms/>
       }
     ],
   },

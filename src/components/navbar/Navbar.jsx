@@ -119,15 +119,13 @@ const Navbar = () => {
             <div className="flex items-center">
               <Link to="/" className="flex items-center group">
                 <div className="relative">
-                  <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-purple-600 rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-200 group-hover:scale-105">
-                    <span className="text-white font-bold text-lg">4</span>
+                  <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-[#003B95] rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-200 group-hover:scale-105">
+                    <span className="text-white font-bold text-lg">404</span>
                   </div>
-                  <div className="absolute -top-1 -right-1 w-4 h-4 bg-gradient-to-br from-orange-400 to-red-500 rounded-full flex items-center justify-center">
-                    <span className="text-white font-bold text-xs">0</span>
-                  </div>
+                 
                 </div>
                 <div className="ml-3">
-                  <h1 className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                  <h1 className="text-xl font-bold bg-gradient-to-r from-blue-600 to-[#003B95] bg-clip-text text-transparent">
                     404 Rooms
                   </h1>
                   <p className="text-xs text-gray-500 -mt-1">Premium Stays</p>
@@ -292,7 +290,7 @@ const Navbar = () => {
                   </Link>
                   <Link
                     to="/register"
-                    className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105"
+                    className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-blue-600 to-[#003B95] hover:from-blue-700 hover:to-purple-700 rounded-sm shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105"
                   >
                     Sign up
                   </Link>
