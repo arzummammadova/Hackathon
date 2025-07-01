@@ -13,6 +13,14 @@ import {
   FaConciergeBell,
 } from 'react-icons/fa';
 import bg from '../assets/bg.png';
+import axios from 'axios';
+import Cookies from 'js-cookie';
+import { toastdev } from '@azadev/react-toastdev';
+import { BASE_URL } from '../constants/api';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import useStore from '../store';
+
 const Detail = () => {
   const { id } = useParams();
 
@@ -26,6 +34,11 @@ const Detail = () => {
 
   const [currentImage, setCurrentImage] = useState(images[0]);
   const [showAllAmenities, setShowAllAmenities] = useState(false);
+  const [showBookingModal, setShowBookingModal] = useState(false);
+  const [checkInDate, setCheckInDate] = useState(null);
+  const [checkOutDate, setCheckOutDate] = useState(null);
+  const [bookingLoading, setBookingLoading] = useState(false);
+  const { user } = useStore()
 
   const data = {
     id,
@@ -75,14 +88,59 @@ const Detail = () => {
     ? data.amenities
     : data.amenities.slice(0, 4);
 
+  const handleBookNow = () => {
+    setShowBookingModal(true);
+  };
+
+  const handleBookingSubmit = async () => {
+    if (!checkInDate || !checkOutDate) {
+      toastdev.error('Tarix aralığını seçin!', { sound: true, duration: 2000 });
+      return;
+    }
+    setBookingLoading(true);
+    try {
+      const res = await axios.post(
+        BASE_URL + 'Reservation',
+        {
+          customerId: user?.id,
+          roomId: 1,
+          checkInDate: checkInDate.toISOString(),
+          checkOutDate: checkOutDate.toISOString(),
+          serviceId: 1,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${Cookies.get('accessToken')}`,
+          },
+        }
+      );
+      console.log(res)
+
+      toastdev.success('Rezervasiya uğurla tamamlandı!', { sound: true, duration: 2000 });
+      setShowBookingModal(false);
+      setCheckInDate(null);
+      setCheckOutDate(null);
+    } catch (err) {
+      console.log(err)
+      toastdev.error(
+        err.response?.data?.message ||
+        (typeof err.response?.data === 'string' ? err.response.data : null) ||
+        'Xəta baş verdi!',
+        { sound: true, duration: 2000 }
+      );
+    } finally {
+      setBookingLoading(false);
+    }
+  };
+
   return (
     <div className="bg-gray-50 min-h-screen py-12"
-     style={{
-            backgroundImage: `url(${bg})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat'
-          }}
+      style={{
+        backgroundImage: `url(${bg})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat'
+      }}
     >
       <div className="container mx-auto px-4 max-w-5xl">
         {/* Title */}
@@ -108,11 +166,10 @@ const Detail = () => {
                   key={idx}
                   src={img}
                   alt={`thumbnail-${idx}`}
-                  className={`w-20 h-16 object-cover rounded-lg cursor-pointer border-2 transition ${
-                    img === currentImage
-                      ? 'border-[#003B95] scale-105'
-                      : 'border-transparent hover:border-gray-300'
-                  }`}
+                  className={`w-20 h-16 object-cover rounded-lg cursor-pointer border-2 transition ${img === currentImage
+                    ? 'border-[#003B95] scale-105'
+                    : 'border-transparent hover:border-gray-300'
+                    }`}
                   onClick={() => setCurrentImage(img)}
                 />
               ))}
@@ -153,7 +210,10 @@ const Detail = () => {
               </div>
             </div>
 
-            <button className="mt-8 bg-[#003B95] text-white py-3 px-6 rounded-lg hover:bg-[#0056d2] transition duration-300 w-full md:w-auto shadow-md hover:shadow-lg">
+            <button
+              className="mt-8 bg-[#003B95] text-white py-3 px-6 rounded-lg hover:bg-[#0056d2] transition duration-300 w-full md:w-auto shadow-md hover:shadow-lg"
+              onClick={handleBookNow}
+            >
               İndi rezerv et
             </button>
           </div>
@@ -206,10 +266,60 @@ const Detail = () => {
         <div className="mt-16 text-center bg-gradient-to-r from-[#003B95] to-[#0066CC] text-white py-8 px-4 rounded-xl shadow-lg">
           <h2 className="text-2xl md:text-3xl font-bold mb-4">Premium otağınızı indi rezerv edin!</h2>
           <p className="mb-6 text-lg">Xüsusi endirimlərdən yararlanmaq üçün indi müraciət edin</p>
-          <button className="bg-white text-[#003B95] font-bold py-3 px-8 rounded-lg hover:bg-gray-100 transition duration-300 shadow-md">
+          <button className="bg-white text-[#003B95] font-bold py-3 px-8 rounded-lg hover:bg-gray-100 transition duration-300 shadow-md"
+            onClick={handleBookNow}
+          >
             Rezervasiya et
           </button>
         </div>
+
+        {/* Booking Modal */}
+        {showBookingModal && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+            <div className="bg-white rounded-2xl shadow-xl p-8 w-full max-w-md relative">
+              <button
+                className="absolute top-3 right-3 text-gray-400 hover:text-gray-700 text-2xl"
+                onClick={() => setShowBookingModal(false)}
+              >
+                ×
+              </button>
+              <h2 className="text-2xl font-bold mb-6 text-[#003B95]">Rezervasiya et</h2>
+              <div className="mb-4">
+                <label className="block mb-2 font-medium">Giriş tarixi</label>
+                <DatePicker
+                  selected={checkInDate}
+                  onChange={date => setCheckInDate(date)}
+                  selectsStart
+                  startDate={checkInDate}
+                  endDate={checkOutDate}
+                  minDate={new Date()}
+                  className="w-full border border-gray-200 rounded-lg px-4 py-2"
+                  placeholderText="Giriş tarixini seçin"
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block mb-2 font-medium">Çıxış tarixi</label>
+                <DatePicker
+                  selected={checkOutDate}
+                  onChange={date => setCheckOutDate(date)}
+                  selectsEnd
+                  startDate={checkInDate}
+                  endDate={checkOutDate}
+                  minDate={checkInDate || new Date()}
+                  className="w-full border border-gray-200 rounded-lg px-4 py-2"
+                  placeholderText="Çıxış tarixini seçin"
+                />
+              </div>
+              <button
+                onClick={handleBookingSubmit}
+                disabled={bookingLoading}
+                className={`w-full py-3 rounded-lg text-white text-lg font-bold shadow-md transition-all duration-200 ${bookingLoading ? 'bg-gray-300 cursor-not-allowed' : 'bg-[#003B95] hover:bg-blue-800'}`}
+              >
+                {bookingLoading ? 'Rezerv edilir...' : 'Təsdiqlə'}
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

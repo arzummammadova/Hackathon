@@ -8,7 +8,7 @@ const initialProfile = {
     image: 'https://i.pravatar.cc/150?img=3', // avatar URL nümunəsi
 };
 
-const SellerProfile = () => {
+const Profile = () => {
     const [profile, setProfile] = useState(initialProfile);
     const [editing, setEditing] = useState(false);
     const [formData, setFormData] = useState(initialProfile);
@@ -129,4 +129,4 @@ const SellerProfile = () => {
     );
 };
 
-export default SellerProfile;
+export default Profile;

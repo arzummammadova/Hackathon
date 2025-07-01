@@ -25,6 +25,11 @@ import Services from './pages/Admin/Services';
 import Profile from './pages/Admin/Profile';
 import Contact from './pages/Contact/Contact';
 import AboutPage from './pages/AboutPage';
+import SellerServices from './pages/Admin/Services';
+import SellerLayout from './components/layout/SellerLayout';
+import Seller from './pages/Seller';
+import SellerProfile from './pages/Admin/Profile';
+import SellerHotelManager from './pages/Seller/HotelManager';
 
 const router = createBrowserRouter([
   // Routes with Layout
@@ -45,12 +50,12 @@ const router = createBrowserRouter([
         element: <Detail />,
       },
       {
-        path:'contact',
-        element:<Contact/>
+        path: 'contact',
+        element: <Contact />
       },
       {
-        path:'about',
-        element:<AboutPage/>
+        path: 'about',
+        element: <AboutPage />
       }
     ],
   },
@@ -93,9 +98,36 @@ const router = createBrowserRouter([
         path: '/admin/services',
         element: <Services />,
       },
+      // {
+      //   path: '/admin/profile',
+      //   element: <Profile />,
+      // },
+    ]
+  },
+  {
+    path: '/seller',
+    element: <SellerLayout />,
+    children: [
       {
-        path: '/admin/profile',
-        element: <Profile />,
+        index: true,
+        element: <Seller />,
+
+      },
+      {
+        path: '/seller/hotel-manager',
+        element: <SellerHotelManager />,
+      },
+      {
+        path: '/seller/customers',
+        element: <Customers />,
+      },
+      {
+        path: '/seller/services',
+        element: <SellerServices />,
+      },
+      {
+        path: '/seller/profile',
+        element: <SellerProfile />,
       },
     ]
   },
