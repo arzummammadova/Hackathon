@@ -8,6 +8,8 @@ import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
 import ResetPassword from './pages/auth/ResetPassword';
 import Otp from './pages/auth/Otp';
+import AuthedLayout from './components/layout/AuthedLayout';
+import { OtelManage } from './pages/authenticated/OtelManage';
 
 const router = createBrowserRouter([
   // Routes with Layout
@@ -25,11 +27,11 @@ const router = createBrowserRouter([
       },
       {
         path: 'courses/:id',
-        element: <Detail/>,
+        element: <Detail />,
       }
     ],
   },
-  
+
   // Authentication routes without Layout
   {
     path: '/login',
@@ -43,7 +45,16 @@ const router = createBrowserRouter([
     path: '/reset-password',
     element: <ResetPassword />,
   },
- 
+  {
+    element: <AuthedLayout />,
+    children: [
+      {
+        path: '/otel-manage',
+        element: <OtelManage />,
+      },
+    ]
+  }
+
 ]);
 
 const App = () => {

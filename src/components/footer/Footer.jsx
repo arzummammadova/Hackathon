@@ -2,61 +2,68 @@ import React from 'react';
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-800 text-white py-8">
+    <footer className="bg-[#003B95] text-white py-8">
       <div className="container mx-auto px-4">
         {/* Five sections */}
         <div className="grid grid-cols-1 md:grid-cols-5 gap-8 mb-8">
-          {/* Section 1 */}
+          {/* Popular Destinations */}
           <div>
-            <h3 className="text-lg font-semibold mb-4">Section 1</h3>
-            <ul>
-              <li>Link 1</li>
-              <li>Link 2</li>
-              <li>Link 3</li>
-              <li>Link 4</li>
+            <h3 className="text-lg font-semibold mb-4">Popular Destinations</h3>
+            <ul className="space-y-2 text-sm">
+              <li>Baku</li>
+              <li>Istanbul</li>
+              <li>Dubai</li>
+              <li>Paris</li>
             </ul>
           </div>
-          {/* Section 2 */}
+
+          {/* Property Types */}
           <div>
-            <h3 className="text-lg font-semibold mb-4">Section 2</h3>
-            <ul>
-              <li>Link 4</li>
-              <li>Link 5</li>
-              <li>Link 6</li>
+            <h3 className="text-lg font-semibold mb-4">Property Types</h3>
+            <ul className="space-y-2 text-sm">
+              <li>Hotels</li>
+              <li>Apartments</li>
+              <li>Resorts</li>
+              <li>Villas</li>
             </ul>
           </div>
-          {/* Section 3 */}
+
+          {/* Customer Services */}
           <div>
-            <h3 className="text-lg font-semibold mb-4">Section 3</h3>
-            <ul>
-              <li>Link 7</li>
-              <li>Link 8</li>
-              <li>Link 9</li>
+            <h3 className="text-lg font-semibold mb-4">Customer Services</h3>
+            <ul className="space-y-2 text-sm">
+              <li>Contact Us</li>
+              <li>FAQ</li>
+              <li>Help Center</li>
+              <li>Cancel Booking</li>
             </ul>
           </div>
-          {/* Section 4 */}
+
+          {/* Partner With Us */}
           <div>
-            <h3 className="text-lg font-semibold mb-4">Section 4</h3>
-            <ul>
-              <li>Link 10</li>
-              <li>Link 11</li>
-              <li>Link 12</li>
+            <h3 className="text-lg font-semibold mb-4">Partner With Us</h3>
+            <ul className="space-y-2 text-sm">
+              <li>List your property</li>
+              <li>Affiliate program</li>
+              <li>Travel agents</li>
             </ul>
           </div>
-          {/* Section 5 */}
+
+          {/* Company */}
           <div>
-            <h3 className="text-lg font-semibold mb-4">Section 5</h3>
-            <ul>
-              <li>Link 13</li>
-              <li>Link 14</li>
-              <li>Link 15</li>
+            <h3 className="text-lg font-semibold mb-4">Company</h3>
+            <ul className="space-y-2 text-sm">
+              <li>About Us</li>
+              <li>Careers</li>
+              <li>Terms & Conditions</li>
+              <li>Privacy Policy</li>
             </ul>
           </div>
         </div>
 
         {/* Copyright */}
-        <div className="text-center border-t border-gray-700 pt-6">
-          <p>&copy; 2025 Your Company. All rights reserved.</p>
+        <div className="text-center border-t border-gray-700 pt-6 text-sm">
+          <p>&copy; 2025 BookingPro. All rights reserved.</p>
         </div>
       </div>
     </footer>
