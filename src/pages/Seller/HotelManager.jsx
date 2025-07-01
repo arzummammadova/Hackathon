@@ -244,12 +244,12 @@ const SellerHotelManager = () => {
                                 {room.isEmpty ? 'Dolu' : 'Boşdur' }
                             </span>
                             <div className="flex gap-2">
-                                <button 
+                                {/* <button 
                                     className="p-1.5 text-blue-600 hover:bg-blue-100 rounded-full"
                                     onClick={() => handleEditRoom(room)}
                                 >
                                     <Pencil size={16} />
-                                </button>
+                                </button> */}
                                 <button 
                                     className="p-1.5 text-red-600 hover:bg-red-100 rounded-full"
                                     onClick={() => handleDeleteRoom(room.id)}
