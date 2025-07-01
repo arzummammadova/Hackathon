@@ -8,13 +8,14 @@ import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
 import ResetPassword from './pages/auth/ResetPassword';
 import Otp from './pages/auth/Otp';
-import AuthedLayout from './components/layout/AuthedLayout';
+import AuthedLayout from './components/layout/AuthedLayout';  
 import { OtelManage } from './pages/authenticated/OtelManage';
 import RoomManager from './pages/authenticated/RoomManager';
 import Cookies from 'js-cookie';
 import axios from 'axios';
 import useStore from './store';
 import AssignCustomer from './pages/authenticated/AsignCustomer';
+import NotFoundPage from './pages/NotFound/NotFoundPage';
 const router = createBrowserRouter([
   // Routes with Layout
   {
@@ -48,6 +49,37 @@ const router = createBrowserRouter([
   {
     path: '/reset-password',
     element: <ResetPassword />,
+  },
+  {
+    path: '/admin',
+    element: <AdminLayout />,
+    children: [
+      {
+        index: true,
+        element: <Admin />,
+
+      },
+      {
+        path: '/admin/user-manager',
+        element: <UserManager />,
+      },
+      {
+        path: '/admin/hotel-manager',
+        element: <HotelManager />,
+      },
+      {
+        path: '/admin/customers',
+        element: <Customers />,
+      },
+      {
+        path: '/admin/services',
+        element: <Services />,
+      },
+      {
+        path: '/admin/profile',
+        element: <Profile />,
+      },
+    ]
   },
   {
     element: <AuthedLayout />,
