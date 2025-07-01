@@ -8,7 +8,7 @@ import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
 import ResetPassword from './pages/auth/ResetPassword';
 import Otp from './pages/auth/Otp';
-import AuthedLayout from './components/layout/AuthedLayout';  
+import AuthedLayout from './components/layout/AuthedLayout';
 import { OtelManage } from './pages/authenticated/OtelManage';
 import RoomManager from './pages/authenticated/RoomManager';
 import Cookies from 'js-cookie';
@@ -16,7 +16,7 @@ import axios from 'axios';
 import useStore from './store';
 import AssignCustomer from './pages/authenticated/AsignCustomer';
 import NotFoundPage from './pages/NotFound/NotFoundPage';
-import AdminLayout  from  "./components/layout/AdminLayout";
+import AdminLayout from "./components/layout/AdminLayout";
 import Admin from './pages/Admin';
 import UserManager from './pages/Admin/UserManager';
 import HotelManager from './pages/Admin/HotelManager';
@@ -106,10 +106,10 @@ const router = createBrowserRouter([
         path: '/otel-manage',
         element: <OtelManage />,
       },
-      // {
-      //   path: '/profile',
-      //   element: <Profile />,
-      // },
+      {
+        path: '/profile',
+        element: <Profile />,
+      },
       {
         path: '/room-manager',
         element: <RoomManager />,
