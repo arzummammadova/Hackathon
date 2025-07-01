@@ -483,11 +483,11 @@ const RoomCard = ({ room, isFavorite, isExpanded, onDetailClick, onFavoriteClick
             className="bg-white/90 backdrop-blur-sm p-2 rounded-full shadow-lg hover:bg-white transition-all duration-200 hover:scale-110"
             onClick={(e) => onFavoriteClick(room.id, e)}
           >
-            <FaHeart
+            {/* <FaHeart
               className={`text-lg transition-colors duration-200 ${
                 isFavorite ? 'text-red-500' : 'text-gray-600 hover:text-red-500'
               }`} 
-            />
+            /> */}
           </button>
           <button
             className="bg-white/90 backdrop-blur-sm p-2 rounded-full shadow-lg hover:bg-white transition-all duration-200 hover:scale-110"

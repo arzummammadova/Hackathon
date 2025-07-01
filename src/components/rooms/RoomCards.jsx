@@ -123,12 +123,12 @@ const RoomCards = () => {
 
                 {/* Action buttons */}
                 <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
-                  <button
+                  {/* <button
                     className="bg-white/90 backdrop-blur-sm p-2 rounded-full shadow-lg hover:bg-white transition-all duration-200 hover:scale-110"
                     onClick={(e) => handleFavoriteClick(room.id, e)}
                   >
                     <FaHeart className={`text-lg transition-colors duration-200 ${favorites.has(room.id) ? 'text-red-500' : 'text-gray-600 hover:text-red-500'}`}/>
-                  </button>
+                  </button> */}
                   <button
                     className="bg-white/90 backdrop-blur-sm p-2 rounded-full shadow-lg hover:bg-white transition-all duration-200 hover:scale-110"
                     onClick={(e) => handleShareClick(room, e)}
@@ -190,7 +190,7 @@ const RoomCards = () => {
                   </div>
 
                   <button
-                    className={`px-6 py-3 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 ${
+                    className={`px-4 py-1 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 ${
                       available
                         ? 'bg-gradient-to-r from-[#003B95] to-[#0056d2] text-white hover:shadow-lg hover:shadow-[#003B95]/25'
                         : 'bg-gray-300 text-gray-500 cursor-not-allowed'

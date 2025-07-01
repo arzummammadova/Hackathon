@@ -21,11 +21,11 @@ const RoomCard = ({ room }) => {
           alt={room.name}
           className="w-full h-48 object-cover transition-transform duration-300 hover:scale-105"
         />
-        <div className="absolute top-4 right-4">
+        {/* <div className="absolute top-4 right-4">
           <button className="bg-white bg-opacity-90 p-2 rounded-full hover:bg-opacity-100 transition-all">
             <Heart size={20} className="text-gray-600 hover:text-red-500" />
           </button>
-        </div>
+        </div> */}
         <div className="absolute bottom-4 left-4">
           <span className="bg-[#003B95] text-white px-3 py-1 rounded-full text-sm font-medium">
             ${room.price}/night
