@@ -77,7 +77,6 @@ export const CustomerTable = () => {
 
     return (
         <div className="w-full max-w-7xl mx-auto bg-white rounded-xl shadow-lg overflow-hidden">
-            {/* Header */}
             <div className="bg-[#003B95] px-6 py-4">
                 <div className="flex items-center justify-between">
                     <h2 className="text-xl font-bold text-white">Otel Müştəri Siyahısı</h2>
@@ -87,8 +86,6 @@ export const CustomerTable = () => {
                     </button>
                 </div>
             </div>
-
-            {/* Search and Filter */}
             <div className="bg-blue-50 px-6 py-4 border-b border-blue-100">
                 <div className="flex flex-col sm:flex-row gap-4">
                     <div className="relative flex-1">
