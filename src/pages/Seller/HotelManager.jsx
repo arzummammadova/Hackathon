@@ -59,6 +59,7 @@ const SellerHotelManager = () => {
         videoFile: null,
         imgKeys: [],
         videoKey: '',
+        number: '',
     });
     const [addLoading, setAddLoading] = useState(false);
 
@@ -105,8 +106,9 @@ const SellerHotelManager = () => {
             comfortIds: room.roomComforts?.map(c => c.comfortId) || [],
             imgFiles: [],
             videoFile: null,
-            imgKeys: room.imgKeys || [],
+            imgKeys: room.imgKeys[0] || [],
             videoKey: room.videoKey || '',
+            number: room.number || '',
         });
         setShowAddModal(true);
     };
@@ -144,38 +146,19 @@ const SellerHotelManager = () => {
             formData.append('PricePerNight', addForm.pricePerNight);
             formData.append('IsEmpty', addForm.isEmpty);
             addForm.comfortIds.forEach(id => formData.append('ComfortIds', id));
-            if (editingId) {
-                formData.append('Id', editingId);
-                if (addForm.imgKeys && addForm.imgKeys.length > 0) {
-                    addForm.imgKeys.forEach(key => formData.append('ImgKeys', key));
-                }
-                if (addForm.videoKey) {
-                    formData.append('VideoKey', addForm.videoKey);
-                }
-            }
             if (addForm.imgFiles && addForm.imgFiles.length > 0) {
-                Array.from(addForm.imgFiles).forEach(file => formData.append('NewImageFiles', file));
+                Array.from(addForm.imgFiles).forEach(file => formData.append('ImgFiles', file));
             }
             if (addForm.videoFile) {
-                formData.append('NewVideo', addForm.videoFile);
+                formData.append('VideoFile', addForm.videoFile);
             }
-            if (editingId) {
-                await axios.put(BASE_URL + 'Room/update', formData, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data',
-                        Authorization: `Bearer ${Cookies.get('accessToken')}`,
-                    },
-                });
-                toastdev.success('Otaq uğurla yeniləndi!', { sound: true, duration: 2000 });
-            } else {
-                await axios.post(BASE_URL + 'Room/create', formData, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data',
-                        Authorization: `Bearer ${Cookies.get('accessToken')}`,
-                    },
-                });
-                toastdev.success('Otaq uğurla əlavə olundu!', { sound: true, duration: 2000 });
-            }
+            await axios.post(BASE_URL + 'Room/create', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    Authorization: `Bearer ${Cookies.get('accessToken')}`,
+                },
+            });
+            toastdev.success('Otaq uğurla əlavə olundu!', { sound: true, duration: 2000 });
             setShowAddModal(false);
             setAddForm({
                 name: '',
@@ -188,6 +171,7 @@ const SellerHotelManager = () => {
                 videoFile: null,
                 imgKeys: [],
                 videoKey: '',
+                number: '',
             });
             setEditingId(null);
             mutate();
