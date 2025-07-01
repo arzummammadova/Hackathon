@@ -5,6 +5,7 @@ import RoomCards from '../components/rooms/RoomCards'
 import PopularRoomCard from '../components/rooms/PopularRoomCard'
 import Madeeasy from '../components/rooms/Madeeasy'
 import VacationSection from '../components/vacation/VacationSection'
+import Faqs from '../components/faqs/Faqs'
 const Home = () => {
   return (
     <div>
@@ -13,6 +14,7 @@ const Home = () => {
     <RoomCards/>
     <Madeeasy/>
     <VacationSection/>
+    <Faqs/>
     
     </div>
   )
