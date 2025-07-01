@@ -9,7 +9,8 @@ const PopularRoomCard = () => {
   return (
     <div className="py-12  container mx-auto">
       <h2 className="text-4xl font-bold mb-10 text-[#003B95] px-6">
-        Popular Rooms
+        Popular Roomss
+
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto px-4">
         {rooms.map((_, index) => (
