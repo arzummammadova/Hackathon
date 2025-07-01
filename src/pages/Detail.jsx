@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import {
   FaBed,
@@ -20,6 +20,7 @@ import { BASE_URL } from '../constants/api';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import useStore from '../store';
+import useSWR from 'swr';
 
 const Detail = () => {
   const { id } = useParams();
@@ -91,22 +92,69 @@ const Detail = () => {
   const handleBookNow = () => {
     setShowBookingModal(true);
   };
+  console.log(user?.id)
+
+  const fetcher = url => axios.get(url, { headers: { Authorization: `Bearer ${Cookies.get('accessToken')}` } }).then(res => res.data);
+
+  // Fetch customers (members) and services
+  const { data: users, isLoading: usersLoading, error: usersError } = useSWR(BASE_URL + 'User/get-all', fetcher);
+  const { data: services, isLoading: servicesLoading, error: servicesError } = useSWR(BASE_URL + 'Service', fetcher);
+  const memberCustomers = (users || []).filter(u => u.roles && u.roles.includes('Member'));
+  // Always use logged-in user
+  const selectedCustomer = user?.id || (memberCustomers[0]?.id || '');
+  // Service selection state
+  const [selectedService, setSelectedService] = useState('');
+  // Set default service when loaded
+  useEffect(() => {
+    if (services && services.length > 0 && !selectedService) {
+      setSelectedService(services[0].id);
+    }
+  }, [services]);
+
+  // Fetch reservations for this room
+  const { data: roomReservations, isLoading: reservationsLoading, error: reservationsError } = useSWR(
+    id ? `${BASE_URL}Reservation?roomId=${id}` : null,
+    url => axios.get(url, { headers: { Authorization: `Bearer ${Cookies.get('accessToken')}` } }).then(res => res.data)
+  );
 
   const handleBookingSubmit = async () => {
     if (!checkInDate || !checkOutDate) {
       toastdev.error('Tarix aralığını seçin!', { sound: true, duration: 2000 });
       return;
     }
+    if (!selectedCustomer) {
+      toastdev.error('Müştəri seçin!', { sound: true, duration: 2000 });
+      return;
+    }
+    if (!selectedService) {
+      toastdev.error('Xidmət seçin!', { sound: true, duration: 2000 });
+      return;
+    }
+    // Overlap check
+    if (roomReservations && roomReservations.length > 0) {
+      const newStart = checkInDate.getTime();
+      const newEnd = checkOutDate.getTime();
+      const overlap = roomReservations.some(r => {
+        const existStart = new Date(r.checkInDate).getTime();
+        const existEnd = new Date(r.checkOutDate).getTime();
+        // Overlap if (A starts before B ends) and (A ends after B starts)
+        return newStart < existEnd && newEnd > existStart;
+      });
+      if (overlap) {
+        toastdev.error('Bu tarix aralığında otaq artıq rezerv olunub!', { sound: true, duration: 3000 });
+        return;
+      }
+    }
     setBookingLoading(true);
     try {
       const res = await axios.post(
         BASE_URL + 'Reservation',
         {
-          customerId: user?.id,
-          roomId: 1,
+          customerId: selectedCustomer,
+          roomId: Number(id),
           checkInDate: checkInDate.toISOString(),
           checkOutDate: checkOutDate.toISOString(),
-          serviceId: 1,
+          serviceId: selectedService,
         },
         {
           headers: {
@@ -114,14 +162,11 @@ const Detail = () => {
           },
         }
       );
-      console.log(res)
-
       toastdev.success('Rezervasiya uğurla tamamlandı!', { sound: true, duration: 2000 });
       setShowBookingModal(false);
       setCheckInDate(null);
       setCheckOutDate(null);
     } catch (err) {
-      console.log(err)
       toastdev.error(
         err.response?.data?.message ||
         (typeof err.response?.data === 'string' ? err.response.data : null) ||
@@ -284,6 +329,26 @@ const Detail = () => {
                 ×
               </button>
               <h2 className="text-2xl font-bold mb-6 text-[#003B95]">Rezervasiya et</h2>
+              {/* Service select */}
+              <div className="mb-4">
+                <label className="block mb-2 font-medium">Xidmət seçin</label>
+                {servicesLoading ? (
+                  <div className="text-blue-600">Yüklənir...</div>
+                ) : servicesError ? (
+                  <div className="text-red-600">Xəta baş verdi!</div>
+                ) : (
+                  <select
+                    className="w-full border border-gray-200 rounded-lg px-4 py-2"
+                    value={selectedService}
+                    onChange={e => setSelectedService(Number(e.target.value))}
+                  >
+                    <option value="">Xidmət seçin</option>
+                    {services && services.map(s => (
+                      <option key={s.id} value={s.id}>{s.name} ({s.price} ₼)</option>
+                    ))}
+                  </select>
+                )}
+              </div>
               <div className="mb-4">
                 <label className="block mb-2 font-medium">Giriş tarixi</label>
                 <DatePicker

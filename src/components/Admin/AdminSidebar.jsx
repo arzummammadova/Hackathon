@@ -11,7 +11,6 @@ const Sidebar = () => {
         { to: '/admin/services', label: 'Xidmətlər', icon: <ConciergeBell size={18} /> },
         { to: '/admin/user-manager', label: 'İstifadəçi İdarəetməsi', icon: <Users size={18} /> },
         { to: '/admin/hotel-manager', label: 'Hotel İdarəetməsi', icon: <BedDouble size={18} /> },
-        { to: '/admin/profile', label: 'Profil', icon: <Settings size={18} /> },
     ];
 
     return (
