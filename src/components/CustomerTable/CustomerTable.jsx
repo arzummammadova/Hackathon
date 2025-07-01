@@ -85,6 +85,7 @@ export const CustomerTable = () => {
                         Yeni Müştəri
                     </button>
                 </div>
+
             </div>
             <div className="bg-blue-50 px-6 py-4 border-b border-blue-100">
                 <div className="flex flex-col sm:flex-row gap-4">
