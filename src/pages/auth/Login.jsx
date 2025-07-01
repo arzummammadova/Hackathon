@@ -5,12 +5,15 @@ import Cookies from "js-cookie";
 import { toastdev } from "@azadev/react-toastdev";
 import { BASE_URL } from '../../constants/api';
 import { FaUser, FaKey, FaCheckCircle } from 'react-icons/fa';
+import useStore from '../../store';
 
 const Login = () => {
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
   const [success, setSuccess] = useState(false);
+  const { setUser } = useStore();
+
 
   useEffect(() => {
     if (Cookies.get("accessToken")) {
@@ -26,6 +29,7 @@ const Login = () => {
         password,
       });
       if (res.data?.isSuccess && res.data?.token?.accessToken) {
+        setUser(res.data?.user)
         Cookies.set("accessToken", res.data.token.accessToken, { expires: 7, path: "/" });
         toastdev.success(res.data.message || "Giriş uğurlu oldu.", { sound: true, duration: 2000, position: 't-center' });
         setSuccess(true);
@@ -58,60 +62,60 @@ const Login = () => {
               <div className="text-gray-500">Ana səhifəyə yönləndirilirsiniz...</div>
             </div>
           ) : (
-          <form className="space-y-6" onSubmit={handleSubmit}>
-            <div className="relative">
-              <FaUser className="absolute left-3 top-3 text-blue-400 text-lg" />
-              <input
-                id="userName"
-                name="userName"
-                type="text"
-                autoComplete="username"
-                required
-                value={userName}
-                onChange={(e) => setUserName(e.target.value)}
-                placeholder="Username"
-                className="appearance-none block w-full px-10 py-3 border border-gray-200 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 sm:text-base bg-blue-50"
-              />
-            </div>
-            <div className="relative">
-              <FaKey className="absolute left-3 top-3 text-blue-400 text-lg" />
-              <input
-                id="password"
-                name="password"
-                type="password"
-                autoComplete="current-password"
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Password"
-                className="appearance-none block w-full px-10 py-3 border border-gray-200 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 sm:text-base bg-blue-50"
-              />
-            </div>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center">
+            <form className="space-y-6" onSubmit={handleSubmit}>
+              <div className="relative">
+                <FaUser className="absolute left-3 top-3 text-blue-400 text-lg" />
                 <input
-                  id="remember-me"
-                  name="remember-me"
-                  type="checkbox"
-                  className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                  id="userName"
+                  name="userName"
+                  type="text"
+                  autoComplete="username"
+                  required
+                  value={userName}
+                  onChange={(e) => setUserName(e.target.value)}
+                  placeholder="Username"
+                  className="appearance-none block w-full px-10 py-3 border border-gray-200 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 sm:text-base bg-blue-50"
                 />
-                <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
-                  Remember me
-                </label>
               </div>
-              <div className="text-sm">
-                <Link to="/reset-password" className="font-medium text-blue-600 hover:text-blue-500">
-                  Forgot your password?
-                </Link>
+              <div className="relative">
+                <FaKey className="absolute left-3 top-3 text-blue-400 text-lg" />
+                <input
+                  id="password"
+                  name="password"
+                  type="password"
+                  autoComplete="current-password"
+                  required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Password"
+                  className="appearance-none block w-full px-10 py-3 border border-gray-200 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 sm:text-base bg-blue-50"
+                />
               </div>
-            </div>
-            <button
-              type="submit"
-              className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-md text-base font-bold text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-400 transition-all duration-200"
-            >
-              Sign in
-            </button>
-          </form>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center">
+                  <input
+                    id="remember-me"
+                    name="remember-me"
+                    type="checkbox"
+                    className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                  />
+                  <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
+                    Remember me
+                  </label>
+                </div>
+                <div className="text-sm">
+                  <Link to="/reset-password" className="font-medium text-blue-600 hover:text-blue-500">
+                    Forgot your password?
+                  </Link>
+                </div>
+              </div>
+              <button
+                type="submit"
+                className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-md text-base font-bold text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-400 transition-all duration-200"
+              >
+                Sign in
+              </button>
+            </form>
           )}
           <div className="mt-8">
             <div className="relative">
