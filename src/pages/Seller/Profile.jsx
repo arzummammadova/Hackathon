@@ -5,7 +5,7 @@ const initialProfile = {
     userName: 'orxanquliyev',
     email: 'orxan@mail.com',
     phoneNumber: '+994501234567',
-    image: 'https://i.pravatar.cc/150?img=3', // avatar URL nümunəsi
+    image: 'https://i.pravatar.cc/150?img=3', 
 };
 
 const Profile = () => {

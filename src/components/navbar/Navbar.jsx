@@ -246,7 +246,7 @@ const Navbar = () => {
                             </div>
                           </Link>
                           
-                          <Link
+                          {/* <Link
                             to="/settings"
                             className="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors group"
                             onClick={() => setIsUserDropdownOpen(false)}
@@ -256,7 +256,7 @@ const Navbar = () => {
                               <p className="font-medium">Settings</p>
                               <p className="text-xs text-gray-500">Preferences & privacy</p>
                             </div>
-                          </Link>
+                          </Link> */}
                         </div>
 
                         <div className="border-t border-gray-100 py-2">

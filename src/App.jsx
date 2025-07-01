@@ -17,20 +17,21 @@ import useStore from './store';
 import AssignCustomer from './pages/authenticated/AsignCustomer';
 import NotFoundPage from './pages/NotFound/NotFoundPage';
 import AdminLayout from "./components/layout/AdminLayout";
+import Customers from './pages/Seller/Customers';
 import Admin from './pages/Admin';
 import UserManager from './pages/Admin/UserManager';
-import HotelManager from './pages/Admin/HotelManager';
-import Customers from './pages/Admin/Customers';
+// import Customers from './pages/Admin/Customers';
 import Services from './pages/Admin/Services';
-import Profile from './pages/Admin/Profile';
+// import Profile from './pages/Admin/Profile';
 import Contact from './pages/Contact/Contact';
 import AboutPage from './pages/AboutPage';
 import Rooms from './pages/Rooms';
 import SellerServices from './pages/Admin/Services';
 import SellerLayout from './components/layout/SellerLayout';
 import Seller from './pages/Seller';
-import SellerProfile from './pages/Admin/Profile';
+import SellerProfile from './pages/Seller/Profile';
 import SellerHotelManager from './pages/Seller/HotelManager';
+import UserProfile from './pages/auth/Profile';
 
 const router = createBrowserRouter([
   // Routes with Layout
@@ -91,10 +92,10 @@ const router = createBrowserRouter([
         path: '/admin/user-manager',
         element: <UserManager />,
       },
-      {
-        path: '/admin/hotel-manager',
-        element: <HotelManager />,
-      },
+      // {
+      //   path: '/admin/hotel-manager',
+      //   element: <SellerHotelManager />,
+      // },
       {
         path: '/admin/customers',
         element: <Customers />,
@@ -145,7 +146,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/profile',
-        element: <Profile />,
+        element: <UserProfile />,
       },
       {
         path: '/room-manager',

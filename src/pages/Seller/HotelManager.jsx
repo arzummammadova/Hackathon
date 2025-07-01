@@ -240,8 +240,8 @@ const SellerHotelManager = () => {
                             </div>
                         )}
                         <div className="mt-3 flex justify-between items-end">
-                            <span className={`inline-block px-2 py-1 rounded-full text-xs font-semibold ${room.isEmpty ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
-                                {room.isEmpty ? 'Boşdur' : 'Dolu' }
+                            <span className={`inline-block px-2 py-1 rounded-full text-xs font-semibold ${room.isEmpty ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700'}`}>
+                                {room.isEmpty ? 'Dolu' : 'Boşdur' }
                             </span>
                             <div className="flex gap-2">
                                 <button 

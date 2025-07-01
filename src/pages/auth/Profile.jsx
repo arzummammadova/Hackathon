@@ -21,7 +21,7 @@ import {
     AlertCircle
 } from 'lucide-react';
 
-const Profile = () => {
+const UserProfile = () => {
     const { user } = useStore();
     const [form, setForm] = useState({
         currentPassword: '',
@@ -387,4 +387,4 @@ const Profile = () => {
     );
 };
 
-export default Profile;
+export default UserProfile;
