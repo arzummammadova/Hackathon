@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Home from './pages/Home';
 import Courses from './pages/Courses';
@@ -11,7 +11,10 @@ import Otp from './pages/auth/Otp';
 import AuthedLayout from './components/layout/AuthedLayout';
 import { OtelManage } from './pages/authenticated/OtelManage';
 import RoomManager from './pages/authenticated/RoomManager';
-
+import Cookies from 'js-cookie';
+import axios from 'axios';
+import useStore from './store';
+import AssignCustomer from './pages/authenticated/AsignCustomer';
 const router = createBrowserRouter([
   // Routes with Layout
   {
@@ -56,6 +59,10 @@ const router = createBrowserRouter([
       {
         path: '/room-manager',
         element: <RoomManager />,
+      },
+      {
+        path: '/assign-customer',
+        element: <AssignCustomer />,
       }
     ]
   }
@@ -63,6 +70,26 @@ const router = createBrowserRouter([
 ]);
 
 const App = () => {
+  const { setUser, logout } = useStore();
+
+  useEffect(() => {
+    const token = Cookies.get('token');
+    if (token) {
+      axios.get(`https://notfounders-001-site1.anytempurl.com/api/User/profile`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      }).then((res) => {
+        setUser(res.data);
+      }).catch(() => {
+        logout();
+      })
+    }
+
+
+  }, [setUser, logout])
+
+
   return <RouterProvider router={router} />;
 }
 
