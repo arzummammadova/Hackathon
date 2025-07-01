@@ -16,6 +16,13 @@ import axios from 'axios';
 import useStore from './store';
 import AssignCustomer from './pages/authenticated/AsignCustomer';
 import ServiceManager from './pages/authenticated/ServiceManager';
+import AdminLayout from './components/layout/AdminLayout';
+import Admin from './pages/Admin';
+import UserManager from './pages/Admin/UserManager';
+import HotelManager from './pages/Admin/HotelManager';
+import Customers from './pages/Admin/Customers';
+import Services from './pages/Admin/Services';
+import Profile from './pages/Admin/Profile';
 const router = createBrowserRouter([
   // Routes with Layout
   {
@@ -69,6 +76,37 @@ const router = createBrowserRouter([
         path: '/service-manager',
         element: <ServiceManager />,
       }
+    ]
+  },
+  {
+    path: '/admin',
+    element: <AdminLayout />,
+    children: [
+      {
+        index: true,
+        element: <Admin />,
+
+      },
+      {
+        path: '/admin/user-manager',
+        element: <UserManager />,
+      },
+      {
+        path: '/admin/hotel-manager',
+        element: <HotelManager />,
+      },
+      {
+        path: '/admin/customers',
+        element: <Customers />,
+      },
+      {
+        path: '/admin/services',
+        element: <Services />,
+      },
+      {
+        path: '/admin/profile',
+        element: <Profile />,
+      },
     ]
   }
 
