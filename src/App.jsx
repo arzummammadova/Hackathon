@@ -31,6 +31,7 @@ import SellerLayout from './components/layout/SellerLayout';
 import Seller from './pages/Seller';
 import SellerProfile from './pages/Admin/Profile';
 import SellerHotelManager from './pages/Seller/HotelManager';
+import ForgotPassword from './pages/auth/ForgotPassword';
 
 const router = createBrowserRouter([
   // Routes with Layout
@@ -77,6 +78,10 @@ const router = createBrowserRouter([
   {
     path: '/reset-password',
     element: <ResetPassword />,
+  },
+  {
+    path: '/forgot-password',
+    element: <ForgotPassword />,
   },
   {
     path: '/admin',
