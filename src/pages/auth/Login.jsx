@@ -1,14 +1,33 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import axios from "axios";
+import Cookies from "js-cookie";
+import { toastdev } from "@azadev/react-toastdev";
+import { BASE_URL } from '../../constants/api';
 
 const Login = () => {
-  const [email, setEmail] = useState('');
+  const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle login logic here
-    console.log({ email, password });
+    try {
+      const res = await axios.post(BASE_URL + 'User/login-with-username-password', {
+        userName,
+        password,
+      });
+      if (res.data?.isSuccess && res.data?.token?.accessToken) {
+        Cookies.set("accessToken", res.data.token.accessToken, { expires: 7, path: "/" });
+        toastdev.success(res.data.message || "Giriş uğurlu oldu.", { sound: true, duration: 2000, position: 't-center' });
+      } else {
+        console.log(res.data);
+
+        toastdev.error(res.data?.message || "Giriş uğursuz oldu!", { sound: true, duration: 2000, position: 't-center' });
+      }
+    } catch (err) {
+      console.log(err);
+      toastdev.error(err.response?.data?.message || "Xəta baş verdi!", { sound: true, duration: 2000, position: 't-center' });
+    }
   };
 
   return (
@@ -23,18 +42,18 @@ const Login = () => {
         <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
           <form className="space-y-6" onSubmit={handleSubmit}>
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                Email address
+              <label htmlFor="userName" className="block text-sm font-medium text-gray-700">
+                Username
               </label>
               <div className="mt-1">
                 <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
+                  id="userName"
+                  name="userName"
+                  type="text"
+                  autoComplete="username"
                   required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  value={userName}
+                  onChange={(e) => setUserName(e.target.value)}
                   className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                 />
               </div>
