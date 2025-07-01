@@ -30,8 +30,8 @@ const Hero = () => {
         operation === 'inc'
           ? prev[name] + 1
           : prev[name] > 0
-          ? prev[name] - 1
-          : 0,
+            ? prev[name] - 1
+            : 0,
     }))
   }
 
