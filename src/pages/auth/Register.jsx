@@ -1,130 +1,132 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from "react";
 
 const Register = () => {
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [tab, setTab] = useState("email");
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    phone: "+994",
+    code: ""
+  });
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Handle registration logic here
-    console.log({ username, email, password, confirmPassword });
+  const handleChange = (field) => (e) => {
+    let value = e.target.value;
+    if (field === "phone" && !value.startsWith("+994")) {
+      value = "+994";
+    }
+    setForm((prev) => ({ ...prev, [field]: value }));
   };
 
+  const disabled =
+    tab === "email"
+      ? !(form.name && form.email && form.code)
+      : !(form.name && form.phone.length > 4 && form.code);
+
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-      <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-          Create a new account
-        </h2>
-      </div>
-
-      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-          <form className="space-y-6" onSubmit={handleSubmit}>
-            <div>
-              <label htmlFor="username" className="block text-sm font-medium text-gray-700">
-                Username
-              </label>
-              <div className="mt-1">
-                <input
-                  id="username"
-                  name="username"
-                  type="text"
-                  autoComplete="username"
-                  required
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                />
-              </div>
-            </div>
-
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                Email address
-              </label>
-              <div className="mt-1">
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                />
-              </div>
-            </div>
-
-            <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-                Password
-              </label>
-              <div className="mt-1">
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  autoComplete="new-password"
-                  required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                />
-              </div>
-            </div>
-
-            <div>
-              <label htmlFor="confirm-password" className="block text-sm font-medium text-gray-700">
-                Confirm Password
-              </label>
-              <div className="mt-1">
-                <input
-                  id="confirm-password"
-                  name="confirm-password"
-                  type="password"
-                  autoComplete="new-password"
-                  required
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                />
-              </div>
-            </div>
-
-            <div>
-              <button
-                type="submit"
-                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-              >
-                Register
-              </button>
-            </div>
-          </form>
-
-          <div className="mt-6">
-            <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-gray-300" />
-              </div>
-              <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-white text-gray-500">
-                  Already have an account?
-                </span>
-              </div>
-            </div>
-
-            <div className="mt-6 text-center">
-              <Link to="/login" className="font-medium text-indigo-600 hover:text-indigo-500">
-                Sign in instead
-              </Link>
-            </div>
-          </div>
+    // Added wrapper div for vertical and horizontal centering
+    <div className="flex items-center justify-center min-h-screen">
+      <div className="max-w-md mx-auto mt-12 bg-white rounded-xl shadow-lg p-8 text-center">
+        <div className="w-16 h-16 mx-auto mb-4 bg-blue-600 text-white text-3xl rounded-xl flex items-center justify-center">
+          M
         </div>
+
+        <h3 className="text-base font-medium mb-1">
+          Otel Rezervation
+        </h3>
+        <div className="text-lg font-semibold mb-6">MyRoom</div>
+
+        {/* Tabs */}
+        <div className="flex justify-center gap-6 mb-6">
+          <button
+            className={`text-sm font-medium pb-1 ${
+              tab === "email"
+                ? "text-blue-600 border-b-2 border-blue-600"
+                : "text-gray-500"
+            }`}
+            onClick={() => setTab("email")}
+          >
+            Email Address
+          </button>
+          <button
+            className={`text-sm font-medium pb-1 ${
+              tab === "phone"
+                ? "text-blue-600 border-b-2 border-blue-600"
+                : "text-gray-500"
+            }`}
+            onClick={() => setTab("phone")}
+          >
+            Phone Number
+          </button>
+        </div>
+
+        {/* Form */}
+        <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
+          <input
+            type="text"
+            placeholder="Full name"
+            value={form.name}
+            onChange={handleChange("name")}
+            className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+
+          {tab === "email" ? (
+            <input
+              type="email"
+              placeholder="Email address"
+              value={form.email}
+              onChange={handleChange("email")}
+              className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          ) : (
+            <input
+              type="tel"
+              placeholder="+994 xx xxx xx xx"
+              value={form.phone}
+              onChange={handleChange("phone")}
+              className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          )}
+
+          <div className="flex gap-2">
+            <input
+              type="text"
+              placeholder="Verification code"
+              value={form.code}
+              onChange={handleChange("code")}
+              className="flex-1 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <button
+              type="button"
+              className="w-20 border border-blue-600 text-blue-600 rounded-lg px-2 py-2 hover:bg-blue-50"
+            >
+              Get
+            </button>
+          </div>
+
+          <button
+            type="submit"
+            disabled={disabled}
+            className={`w-full py-2 rounded-lg text-white font-semibold ${
+              disabled
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-blue-600 hover:bg-blue-700"
+            }`}
+          >
+            Join Now
+          </button>
+        </form>
+
+        <p className="text-xs text-gray-500 mt-5">
+          By continuing, you agree to our{" "}
+          <a href="#" className="text-blue-600 underline">
+            Terms of Service
+          </a>{" "}
+          and{" "}
+          <a href="#" className="text-blue-600 underline">
+            Privacy Policy
+          </a>
+          .
+        </p>
       </div>
     </div>
   );
