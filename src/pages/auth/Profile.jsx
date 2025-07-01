@@ -20,6 +20,7 @@ import {
     CheckCircle,
     AlertCircle
 } from 'lucide-react';
+import useSWR from 'swr';
 
 const UserProfile = () => {
     const { user } = useStore();
@@ -35,6 +36,12 @@ const UserProfile = () => {
         confirm: false
     });
     const [passwordStrength, setPasswordStrength] = useState(0);
+
+    // Fetch reservations for the current user
+    const { data: reservations, isLoading: reservationsLoading, error: reservationsError } = useSWR(
+        user?.id ? `${BASE_URL}Reservation?customerId=${user.id}` : null,
+        url => axios.get(url, { headers: { Authorization: `Bearer ${Cookies.get('accessToken')}` } }).then(res => res.data)
+    );
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -209,6 +216,48 @@ const UserProfile = () => {
                                             </div>
                                         </div>
                                     </div>
+                                </div>
+                            </div>
+
+                            {/* Reservation List Section */}
+                            <div className="bg-white rounded-3xl shadow-xl overflow-hidden mt-8">
+                                <div className="p-6 border-b border-gray-100">
+                                    <h3 className="text-2xl font-bold text-[#003B95]">Rezervasiyalarım</h3>
+                                </div>
+                                <div className="p-6 overflow-x-auto">
+                                    {reservationsLoading ? (
+                                        <div className="text-blue-600">Yüklənir...</div>
+                                    ) : reservationsError ? (
+                                        <div className="text-red-600">Xəta baş verdi!</div>
+                                    ) : reservations && reservations.length > 0 ? (
+                                        <table className="min-w-full divide-y divide-gray-200">
+                                            <thead className="bg-blue-50">
+                                                <tr>
+                                                    <th className="px-4 py-2 text-left text-xs font-semibold text-blue-900 uppercase tracking-wider">Otaq ID</th>
+                                                    <th className="px-4 py-2 text-left text-xs font-semibold text-blue-900 uppercase tracking-wider">Giriş tarixi</th>
+                                                    <th className="px-4 py-2 text-left text-xs font-semibold text-blue-900 uppercase tracking-wider">Çıxış tarixi</th>
+                                                    <th className="px-4 py-2 text-left text-xs font-semibold text-blue-900 uppercase tracking-wider">Xidmət ID</th>
+                                                    <th className="px-4 py-2 text-left text-xs font-semibold text-blue-900 uppercase tracking-wider">Müştəri</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody className="divide-y divide-gray-100">
+                                                {reservations.map(r => (
+                                                    <tr key={r.id}>
+                                                        <td className="px-4 py-2 font-semibold text-blue-900">{r.roomId}</td>
+                                                        <td className="px-4 py-2">{r.checkInDate ? new Date(r.checkInDate).toLocaleDateString() : '-'}</td>
+                                                        <td className="px-4 py-2">{r.checkOutDate ? new Date(r.checkOutDate).toLocaleDateString() : '-'}</td>
+                                                        <td className="px-4 py-2">{r.serviceId}</td>
+                                                        <td className="px-4 py-2">
+                                                            {r.customer?.userName || '-'}<br/>
+                                                            <span className="text-xs text-gray-500">{r.customer?.phoneNumber || ''}</span>
+                                                        </td>
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </table>
+                                    ) : (
+                                        <div className="text-gray-500">Rezervasiya tapılmadı</div>
+                                    )}
                                 </div>
                             </div>
                         </div>
