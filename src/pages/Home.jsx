@@ -1,12 +1,12 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import Hero from '../components/hero/Hero'
+import RoomCards from '../components/rooms/RoomCards'
 const Home = () => {
   return (
     <div>
-      home
-      <Link to="/courses" className="text-blue-500 hover:underline">
-        Go to Courses 
-        </Link>
+    <Hero/>
+    <RoomCards/>
     </div>
   )
 }
